@@ -1,0 +1,804 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DEVELOPER MOMIN4x AND FLEXY4x</title>
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Rajdhani:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ff-orange: #FF6B00;
+    --ff-yellow: #FFD700;
+    --ff-red: #FF2020;
+    --ff-dark: #0A0A0F;
+    --ff-card: #12121A;
+    --ff-border: #FF6B0044;
+    --ff-glow: #FF6B0088;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: var(--ff-dark);
+    color: #fff;
+    font-family: 'Rajdhani', sans-serif;
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background:
+      radial-gradient(ellipse 80% 40% at 50% 0%, #FF6B0022 0%, transparent 60%),
+      radial-gradient(ellipse 60% 30% at 80% 80%, #FF200011 0%, transparent 50%);
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  .container { position: relative; z-index: 1; max-width: 900px; margin: 0 auto; padding: 20px; }
+
+  /* HEADER */
+  .header {
+    text-align: center;
+    padding: 30px 0 20px;
+    border-bottom: 1px solid var(--ff-border);
+    margin-bottom: 30px;
+    position: relative;
+  }
+  .header::after {
+    content: '';
+    position: absolute;
+    bottom: -1px; left: 50%; transform: translateX(-50%);
+    width: 200px; height: 2px;
+    background: linear-gradient(90deg, transparent, var(--ff-orange), transparent);
+  }
+  .logo-badge {
+    display: inline-block;
+    background: linear-gradient(135deg, var(--ff-orange), var(--ff-red));
+    color: #fff;
+    font-family: 'Orbitron', monospace;
+    font-size: 10px;
+    font-weight: 900;
+    letter-spacing: 3px;
+    padding: 4px 12px;
+    border-radius: 2px;
+    margin-bottom: 10px;
+    text-transform: uppercase;
+  }
+  h1 {
+    font-family: 'Orbitron', monospace;
+    font-size: clamp(22px, 5vw, 38px);
+    font-weight: 900;
+    background: linear-gradient(135deg, #fff 0%, var(--ff-yellow) 50%, var(--ff-orange) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    line-height: 1.1;
+    text-shadow: none;
+  }
+  .subtitle {
+    color: #aaa;
+    font-size: 14px;
+    margin-top: 8px;
+    letter-spacing: 1px;
+  }
+
+  /* DEVICE TYPE TOGGLE */
+  .device-type-section {
+    margin-bottom: 24px;
+  }
+  .section-label {
+    font-family: 'Orbitron', monospace;
+    font-size: 11px;
+    color: var(--ff-orange);
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    margin-bottom: 12px;
+  }
+  .toggle-group {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+  }
+  .toggle-btn {
+    flex: 1;
+    min-width: 140px;
+    padding: 14px 20px;
+    background: var(--ff-card);
+    border: 1px solid var(--ff-border);
+    border-radius: 6px;
+    color: #888;
+    font-family: 'Orbitron', monospace;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    cursor: pointer;
+    transition: all 0.3s;
+    text-align: center;
+  }
+  .toggle-btn:hover { border-color: var(--ff-orange); color: var(--ff-orange); }
+  .toggle-btn.active {
+    background: linear-gradient(135deg, #FF6B0022, #FF6B0044);
+    border-color: var(--ff-orange);
+    color: var(--ff-orange);
+    box-shadow: 0 0 20px #FF6B0033;
+  }
+
+  /* DEVICE OPTION BUTTONS - Old/New */
+  .mode-section { margin-bottom: 24px; }
+  .mode-group { display: flex; gap: 10px; }
+  .mode-btn {
+    flex: 1;
+    padding: 12px;
+    background: var(--ff-card);
+    border: 1px solid #ffffff22;
+    border-radius: 6px;
+    color: #666;
+    font-family: 'Rajdhani', sans-serif;
+    font-size: 15px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.3s;
+    text-align: center;
+  }
+  .mode-btn .mode-icon { font-size: 20px; display: block; margin-bottom: 4px; }
+  .mode-btn .mode-sub { font-size: 11px; color: #555; letter-spacing: 1px; }
+  .mode-btn:hover { border-color: var(--ff-yellow); color: #fff; }
+  .mode-btn.active {
+    background: linear-gradient(135deg, #FFD70022, #FF6B0022);
+    border-color: var(--ff-yellow);
+    color: var(--ff-yellow);
+  }
+  .mode-btn.active .mode-sub { color: #FFD70088; }
+
+  /* SEARCH */
+  .search-section { margin-bottom: 24px; }
+  .search-box {
+    position: relative;
+  }
+  .search-icon {
+    position: absolute;
+    left: 16px; top: 50%; transform: translateY(-50%);
+    font-size: 18px;
+    color: var(--ff-orange);
+    pointer-events: none;
+  }
+  #deviceSearch {
+    width: 100%;
+    padding: 16px 16px 16px 48px;
+    background: var(--ff-card);
+    border: 1px solid var(--ff-border);
+    border-radius: 8px;
+    color: #fff;
+    font-family: 'Rajdhani', sans-serif;
+    font-size: 16px;
+    outline: none;
+    transition: border-color 0.3s, box-shadow 0.3s;
+  }
+  #deviceSearch:focus {
+    border-color: var(--ff-orange);
+    box-shadow: 0 0 0 3px #FF6B0022;
+  }
+  #deviceSearch::placeholder { color: #555; }
+
+  /* DROPDOWN */
+  #dropdownList {
+    position: absolute;
+    top: calc(100% + 6px);
+    left: 0; right: 0;
+    background: #1A1A25;
+    border: 1px solid var(--ff-border);
+    border-radius: 8px;
+    max-height: 260px;
+    overflow-y: auto;
+    z-index: 100;
+    display: none;
+    box-shadow: 0 20px 60px #00000088;
+  }
+  #dropdownList.show { display: block; }
+  .drop-item {
+    padding: 12px 16px;
+    cursor: pointer;
+    border-bottom: 1px solid #ffffff08;
+    font-size: 14px;
+    color: #ccc;
+    transition: background 0.2s, color 0.2s;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .drop-item:hover { background: #FF6B0018; color: var(--ff-orange); }
+  .drop-item:last-child { border-bottom: none; }
+  .drop-brand { font-size: 10px; color: #555; background: #ffffff0a; padding: 2px 6px; border-radius: 3px; }
+  #dropdownList::-webkit-scrollbar { width: 4px; }
+  #dropdownList::-webkit-scrollbar-track { background: transparent; }
+  #dropdownList::-webkit-scrollbar-thumb { background: var(--ff-orange); border-radius: 4px; }
+
+  /* RESULT CARD */
+  #resultCard {
+    display: none;
+    animation: slideUp 0.4s ease;
+  }
+  @keyframes slideUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  .result-header {
+    background: linear-gradient(135deg, #FF6B0015, #FF200010);
+    border: 1px solid var(--ff-border);
+    border-radius: 12px 12px 0 0;
+    padding: 20px 24px;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    border-bottom: none;
+  }
+  .device-icon-big { font-size: 36px; }
+  .device-name-big {
+    font-family: 'Orbitron', monospace;
+    font-size: clamp(14px, 3vw, 20px);
+    font-weight: 900;
+    color: var(--ff-yellow);
+  }
+  .device-meta { font-size: 12px; color: #888; margin-top: 4px; letter-spacing: 1px; }
+  .vip-badge {
+    margin-left: auto;
+    background: linear-gradient(135deg, var(--ff-orange), var(--ff-red));
+    padding: 6px 14px;
+    border-radius: 4px;
+    font-family: 'Orbitron', monospace;
+    font-size: 9px;
+    font-weight: 900;
+    letter-spacing: 2px;
+    color: #fff;
+    white-space: nowrap;
+  }
+
+  .sens-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+    gap: 1px;
+    background: var(--ff-border);
+    border: 1px solid var(--ff-border);
+    border-top: none;
+    border-radius: 0 0 12px 12px;
+    overflow: hidden;
+  }
+  .sens-item {
+    background: var(--ff-card);
+    padding: 18px 16px;
+    text-align: center;
+    transition: background 0.3s;
+    position: relative;
+    overflow: hidden;
+  }
+  .sens-item::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 2px;
+    background: transparent;
+    transition: background 0.3s;
+  }
+  .sens-item:hover::before { background: var(--ff-orange); }
+  .sens-item:hover { background: #FF6B000D; }
+  .sens-label {
+    font-size: 10px;
+    color: #666;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    margin-bottom: 8px;
+    font-family: 'Orbitron', monospace;
+  }
+  .sens-value {
+    font-family: 'Orbitron', monospace;
+    font-size: 28px;
+    font-weight: 900;
+    background: linear-gradient(135deg, #fff, var(--ff-yellow));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    line-height: 1;
+  }
+  .sens-item.highlight .sens-value {
+    background: linear-gradient(135deg, var(--ff-yellow), var(--ff-orange));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+  .dpi-row {
+    background: linear-gradient(135deg, #FFD70008, #FF6B0008);
+    border: 1px solid var(--ff-border);
+    border-radius: 8px;
+    padding: 14px 20px;
+    margin-top: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+  }
+  .dpi-label { font-family: 'Orbitron', monospace; font-size: 10px; color: #888; letter-spacing: 2px; }
+  .dpi-val { font-family: 'Orbitron', monospace; font-size: 22px; font-weight: 900; color: var(--ff-yellow); }
+  .fire-row {
+    background: linear-gradient(135deg, #FF200008, #FF6B0008);
+    border: 1px solid #FF200033;
+    border-radius: 8px;
+    padding: 14px 20px;
+    margin-top: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+  }
+  .fire-label { font-family: 'Orbitron', monospace; font-size: 10px; color: #888; letter-spacing: 2px; }
+  .fire-val { font-family: 'Orbitron', monospace; font-size: 22px; font-weight: 900; color: var(--ff-red); }
+
+  /* NO DEVICE */
+  #noResult {
+    display: none;
+    text-align: center;
+    padding: 40px;
+    background: var(--ff-card);
+    border: 1px solid var(--ff-border);
+    border-radius: 12px;
+    color: #555;
+    font-family: 'Orbitron', monospace;
+    font-size: 13px;
+    letter-spacing: 2px;
+  }
+
+  /* POPULAR DEVICES */
+  .popular-section { margin-top: 32px; }
+  .popular-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 12px;
+  }
+  .pop-chip {
+    padding: 8px 14px;
+    background: var(--ff-card);
+    border: 1px solid #ffffff11;
+    border-radius: 20px;
+    font-size: 12px;
+    color: #888;
+    cursor: pointer;
+    transition: all 0.25s;
+    font-family: 'Rajdhani', sans-serif;
+    font-weight: 600;
+  }
+  .pop-chip:hover {
+    border-color: var(--ff-orange);
+    color: var(--ff-orange);
+    background: #FF6B0015;
+  }
+
+  /* FOOTER */
+  .footer {
+    text-align: center;
+    margin-top: 40px;
+    padding-top: 20px;
+    border-top: 1px solid #ffffff0a;
+    font-size: 11px;
+    color: #444;
+    letter-spacing: 2px;
+    font-family: 'Orbitron', monospace;
+  }
+</style>
+</head>
+<body>
+<div class="container">
+
+  <!-- HEADER -->
+  <div class="header">
+    <div class="logo-badge">🎯 MOMIN4x</div>
+    <h1>FLEXY4x<br>SENSITIVITY</h1>
+    <p class="subtitle">DEVICE-BASED • PRO SETTINGS • ALL BRANDS</p>
+  </div>
+
+  <!-- DEVICE TYPE -->
+  <div class="device-type-section">
+    <div class="section-label">▸ Platform Select</div>
+    <div class="toggle-group">
+      <button class="toggle-btn active" onclick="setDeviceType('all')">🌐 ALL DEVICES</button>
+      <button class="toggle-btn" onclick="setDeviceType('iphone')">🍎 iPHONE</button>
+      <button class="toggle-btn" onclick="setDeviceType('android')">🤖 ANDROID</button>
+    </div>
+  </div>
+
+  <!-- MODE: OLD vs NEW -->
+  <div class="mode-section">
+    <div class="section-label">▸ Device Mode</div>
+    <div class="mode-group">
+      <button class="mode-btn active" onclick="setMode('old')" id="modeOld">
+        <span class="mode-icon">📟</span>
+        OLD DEVICE
+        <span class="mode-sub">WITH DPI SETTING</span>
+      </button>
+      <button class="mode-btn" onclick="setMode('new')" id="modeNew">
+        <span class="mode-icon">📱</span>
+        NEW DEVICE
+        <span class="mode-sub">WITHOUT DPI NEEDED</span>
+      </button>
+    </div>
+  </div>
+
+  <!-- SEARCH -->
+  <div class="search-section">
+    <div class="section-label">▸ Search Your Device</div>
+    <div class="search-box" style="position:relative;">
+      <span class="search-icon">🔍</span>
+      <input type="text" id="deviceSearch" placeholder="e.g. iPhone 11, Samsung S21, Redmi Note 10..." autocomplete="off" oninput="onSearch()" onfocus="onSearch()">
+      <div id="dropdownList"></div>
+    </div>
+  </div>
+
+  <!-- RESULT -->
+  <div id="resultCard"></div>
+  <div id="noResult">⚠ DEVICE NOT FOUND — TRY ANOTHER NAME</div>
+
+  <!-- POPULAR CHIPS -->
+  <div class="popular-section">
+    <div class="section-label">▸ Popular Devices</div>
+    <div class="popular-grid" id="popularGrid"></div>
+  </div>
+
+  <div class="footer">FREE FIRE • VIP SENSITIVITY BY MOMIN4x • ALL RIGHTS RESERVED</div>
+</div>
+
+<script>
+// ===================== DATA =====================
+const devices = [
+  // ---- iPHONE ----
+  { name:"iPhone SE (1st Gen)", brand:"iPhone", type:"iphone", fire:"60%", gen:"120", red:"130", s2x:"140", s4x:"150", sniper:"160", look:"100" },
+  { name:"iPhone 6s", brand:"iPhone", type:"iphone", fire:"65%", gen:"125", red:"135", s2x:"145", s4x:"155", sniper:"165", look:"105" },
+  { name:"iPhone 6s Plus", brand:"iPhone", type:"iphone", fire:"65%", gen:"125", red:"135", s2x:"145", s4x:"155", sniper:"165", look:"105" },
+  { name:"iPhone 7", brand:"iPhone", type:"iphone", fire:"65%", gen:"130", red:"140", s2x:"150", s4x:"160", sniper:"170", look:"110" },
+  { name:"iPhone 7 Plus", brand:"iPhone", type:"iphone", fire:"65%", gen:"130", red:"140", s2x:"150", s4x:"160", sniper:"170", look:"110" },
+  { name:"iPhone 8", brand:"iPhone", type:"iphone", fire:"60%", gen:"135", red:"145", s2x:"155", s4x:"165", sniper:"175", look:"115" },
+  { name:"iPhone 8 Plus", brand:"iPhone", type:"iphone", fire:"60%", gen:"135", red:"145", s2x:"155", s4x:"165", sniper:"175", look:"115" },
+  { name:"iPhone X", brand:"iPhone", type:"iphone", fire:"55%", gen:"140", red:"150", s2x:"160", s4x:"170", sniper:"180", look:"120" },
+  { name:"iPhone XS", brand:"iPhone", type:"iphone", fire:"55%", gen:"140", red:"150", s2x:"160", s4x:"170", sniper:"180", look:"120" },
+  { name:"iPhone XS Max", brand:"iPhone", type:"iphone", fire:"55%", gen:"140", red:"150", s2x:"160", s4x:"170", sniper:"180", look:"120" },
+  { name:"iPhone XR", brand:"iPhone", type:"iphone", fire:"50%", gen:"145", red:"155", s2x:"165", s4x:"175", sniper:"185", look:"125" },
+  { name:"iPhone 11", brand:"iPhone", type:"iphone", fire:"50%", gen:"150", red:"160", s2x:"170", s4x:"180", sniper:"190", look:"130" },
+  { name:"iPhone 12", brand:"iPhone", type:"iphone", fire:"45%", gen:"155", red:"165", s2x:"175", s4x:"185", sniper:"195", look:"135" },
+  { name:"iPhone 12 Mini", brand:"iPhone", type:"iphone", fire:"45%", gen:"155", red:"165", s2x:"175", s4x:"185", sniper:"195", look:"135" },
+  { name:"iPhone 12 Pro", brand:"iPhone", type:"iphone", fire:"45%", gen:"160", red:"170", s2x:"180", s4x:"190", sniper:"200", look:"140" },
+  { name:"iPhone 12 Pro Max", brand:"iPhone", type:"iphone", fire:"45%", gen:"160", red:"170", s2x:"180", s4x:"190", sniper:"200", look:"140" },
+  { name:"iPhone 13", brand:"iPhone", type:"iphone", fire:"45%", gen:"165", red:"175", s2x:"185", s4x:"195", sniper:"200", look:"145" },
+  { name:"iPhone 13 Mini", brand:"iPhone", type:"iphone", fire:"45%", gen:"165", red:"175", s2x:"185", s4x:"195", sniper:"200", look:"145" },
+  { name:"iPhone 13 Pro", brand:"iPhone", type:"iphone", fire:"40%", gen:"170", red:"180", s2x:"190", s4x:"200", sniper:"200", look:"150" },
+  { name:"iPhone 13 Pro Max", brand:"iPhone", type:"iphone", fire:"40%", gen:"170", red:"180", s2x:"190", s4x:"200", sniper:"200", look:"150" },
+  { name:"iPhone 14", brand:"iPhone", type:"iphone", fire:"40%", gen:"175", red:"185", s2x:"195", s4x:"200", sniper:"200", look:"155" },
+  { name:"iPhone 14 Plus", brand:"iPhone", type:"iphone", fire:"40%", gen:"175", red:"185", s2x:"195", s4x:"200", sniper:"200", look:"155" },
+  { name:"iPhone 14 Pro", brand:"iPhone", type:"iphone", fire:"35%", gen:"180", red:"190", s2x:"200", s4x:"200", sniper:"200", look:"160" },
+  { name:"iPhone 14 Pro Max", brand:"iPhone", type:"iphone", fire:"35%", gen:"180", red:"190", s2x:"200", s4x:"200", sniper:"200", look:"160" },
+  { name:"iPhone 15", brand:"iPhone", type:"iphone", fire:"35%", gen:"185", red:"195", s2x:"200", s4x:"200", sniper:"200", look:"165" },
+  { name:"iPhone 15 Plus", brand:"iPhone", type:"iphone", fire:"35%", gen:"185", red:"195", s2x:"200", s4x:"200", sniper:"200", look:"165" },
+  { name:"iPhone 15 Pro", brand:"iPhone", type:"iphone", fire:"30%", gen:"190", red:"200", s2x:"200", s4x:"200", sniper:"200", look:"170" },
+  { name:"iPhone 15 Pro Max", brand:"iPhone", type:"iphone", fire:"30%", gen:"190", red:"200", s2x:"200", s4x:"200", sniper:"200", look:"170" },
+
+  // ---- GOOGLE PIXEL ----
+  { name:"Google Pixel", brand:"Google Pixel", type:"android", dpi:"800", fire:"60%", gen:"120", red:"130", s2x:"140", s4x:"150", sniper:"160", look:"100" },
+  { name:"Google Pixel 2", brand:"Google Pixel", type:"android", dpi:"800", fire:"60%", gen:"125", red:"135", s2x:"145", s4x:"155", sniper:"165", look:"105" },
+  { name:"Google Pixel 3", brand:"Google Pixel", type:"android", dpi:"900", fire:"55%", gen:"130", red:"140", s2x:"150", s4x:"160", sniper:"170", look:"110" },
+  { name:"Google Pixel 3a", brand:"Google Pixel", type:"android", dpi:"900", fire:"55%", gen:"135", red:"145", s2x:"155", s4x:"165", sniper:"175", look:"115" },
+  { name:"Google Pixel 4", brand:"Google Pixel", type:"android", dpi:"1000", fire:"50%", gen:"140", red:"150", s2x:"160", s4x:"170", sniper:"180", look:"120" },
+  { name:"Google Pixel 4a", brand:"Google Pixel", type:"android", dpi:"1000", fire:"50%", gen:"145", red:"155", s2x:"165", s4x:"175", sniper:"185", look:"125" },
+  { name:"Google Pixel 5", brand:"Google Pixel", type:"android", dpi:"1200", fire:"50%", gen:"150", red:"160", s2x:"170", s4x:"180", sniper:"190", look:"130" },
+  { name:"Google Pixel 5a", brand:"Google Pixel", type:"android", dpi:"1200", fire:"50%", gen:"155", red:"165", s2x:"175", s4x:"185", sniper:"195", look:"135" },
+  { name:"Google Pixel 6", brand:"Google Pixel", type:"android", dpi:"1400", fire:"45%", gen:"160", red:"170", s2x:"180", s4x:"190", sniper:"200", look:"140" },
+  { name:"Google Pixel 6a", brand:"Google Pixel", type:"android", dpi:"1400", fire:"45%", gen:"165", red:"175", s2x:"185", s4x:"195", sniper:"200", look:"145" },
+  { name:"Google Pixel 7", brand:"Google Pixel", type:"android", dpi:"1600", fire:"40%", gen:"170", red:"180", s2x:"190", s4x:"200", sniper:"200", look:"150" },
+  { name:"Google Pixel 7a", brand:"Google Pixel", type:"android", dpi:"1600", fire:"40%", gen:"175", red:"185", s2x:"195", s4x:"200", sniper:"200", look:"155" },
+  { name:"Google Pixel 8", brand:"Google Pixel", type:"android", dpi:"1600", fire:"40%", gen:"180", red:"190", s2x:"200", s4x:"200", sniper:"200", look:"160" },
+
+  // ---- HUAWEI ----
+  { name:"Huawei P9", brand:"Huawei", type:"android", dpi:"800", fire:"60%", gen:"120", red:"130", s2x:"140", s4x:"150", sniper:"160", look:"100" },
+  { name:"Huawei P10", brand:"Huawei", type:"android", dpi:"800", fire:"60%", gen:"125", red:"135", s2x:"145", s4x:"155", sniper:"165", look:"105" },
+  { name:"Huawei P20", brand:"Huawei", type:"android", dpi:"900", fire:"55%", gen:"130", red:"140", s2x:"150", s4x:"160", sniper:"170", look:"110" },
+  { name:"Huawei P20 Pro", brand:"Huawei", type:"android", dpi:"900", fire:"55%", gen:"135", red:"145", s2x:"155", s4x:"165", sniper:"175", look:"115" },
+  { name:"Huawei P30", brand:"Huawei", type:"android", dpi:"1000", fire:"50%", gen:"140", red:"150", s2x:"160", s4x:"170", sniper:"180", look:"120" },
+  { name:"Huawei P30 Pro", brand:"Huawei", type:"android", dpi:"1000", fire:"50%", gen:"145", red:"155", s2x:"165", s4x:"175", sniper:"185", look:"125" },
+  { name:"Huawei P40", brand:"Huawei", type:"android", dpi:"1200", fire:"50%", gen:"150", red:"160", s2x:"170", s4x:"180", sniper:"190", look:"130" },
+  { name:"Huawei P40 Pro", brand:"Huawei", type:"android", dpi:"1200", fire:"50%", gen:"155", red:"165", s2x:"175", s4x:"185", sniper:"195", look:"135" },
+  { name:"Huawei Mate 10", brand:"Huawei", type:"android", dpi:"800", fire:"60%", gen:"125", red:"135", s2x:"145", s4x:"155", sniper:"165", look:"105" },
+  { name:"Huawei Mate 20", brand:"Huawei", type:"android", dpi:"900", fire:"55%", gen:"130", red:"140", s2x:"150", s4x:"160", sniper:"170", look:"110" },
+  { name:"Huawei Mate 30", brand:"Huawei", type:"android", dpi:"1000", fire:"50%", gen:"135", red:"145", s2x:"155", s4x:"165", sniper:"175", look:"115" },
+  { name:"Huawei Mate 40", brand:"Huawei", type:"android", dpi:"1200", fire:"50%", gen:"140", red:"150", s2x:"160", s4x:"170", sniper:"180", look:"120" },
+
+  // ---- OnePlus ----
+  { name:"OnePlus 3", brand:"OnePlus", type:"android", dpi:"800", fire:"60%", gen:"120", red:"130", s2x:"140", s4x:"150", sniper:"160", look:"100" },
+  { name:"OnePlus 3T", brand:"OnePlus", type:"android", dpi:"800", fire:"60%", gen:"125", red:"135", s2x:"145", s4x:"155", sniper:"165", look:"105" },
+  { name:"OnePlus 5", brand:"OnePlus", type:"android", dpi:"900", fire:"55%", gen:"130", red:"140", s2x:"150", s4x:"160", sniper:"170", look:"110" },
+  { name:"OnePlus 5T", brand:"OnePlus", type:"android", dpi:"900", fire:"55%", gen:"135", red:"145", s2x:"155", s4x:"165", sniper:"175", look:"115" },
+  { name:"OnePlus 6", brand:"OnePlus", type:"android", dpi:"1000", fire:"50%", gen:"140", red:"150", s2x:"160", s4x:"170", sniper:"180", look:"120" },
+  { name:"OnePlus 6T", brand:"OnePlus", type:"android", dpi:"1000", fire:"50%", gen:"145", red:"155", s2x:"165", s4x:"175", sniper:"185", look:"125" },
+  { name:"OnePlus 7", brand:"OnePlus", type:"android", dpi:"1200", fire:"50%", gen:"150", red:"160", s2x:"170", s4x:"180", sniper:"190", look:"130" },
+  { name:"OnePlus 7 Pro", brand:"OnePlus", type:"android", dpi:"1200", fire:"50%", gen:"155", red:"165", s2x:"175", s4x:"185", sniper:"195", look:"135" },
+  { name:"OnePlus 8", brand:"OnePlus", type:"android", dpi:"1400", fire:"50%", gen:"160", red:"170", s2x:"180", s4x:"190", sniper:"200", look:"140" },
+  { name:"OnePlus 8 Pro", brand:"OnePlus", type:"android", dpi:"1400", fire:"50%", gen:"165", red:"175", s2x:"185", s4x:"195", sniper:"200", look:"145" },
+  { name:"OnePlus 9", brand:"OnePlus", type:"android", dpi:"1600", fire:"45%", gen:"170", red:"180", s2x:"190", s4x:"200", sniper:"200", look:"150" },
+  { name:"OnePlus 9 Pro", brand:"OnePlus", type:"android", dpi:"1600", fire:"45%", gen:"175", red:"185", s2x:"195", s4x:"200", sniper:"200", look:"155" },
+  { name:"OnePlus 10 Pro", brand:"OnePlus", type:"android", dpi:"1600", fire:"45%", gen:"180", red:"190", s2x:"200", s4x:"200", sniper:"200", look:"160" },
+
+  // ---- OPPO ----
+  { name:"Oppo F1", brand:"Oppo", type:"android", dpi:"800", fire:"60%", gen:"120", red:"130", s2x:"140", s4x:"150", sniper:"160", look:"100" },
+  { name:"Oppo F1s", brand:"Oppo", type:"android", dpi:"800", fire:"60%", gen:"125", red:"135", s2x:"145", s4x:"155", sniper:"165", look:"105" },
+  { name:"Oppo F3", brand:"Oppo", type:"android", dpi:"900", fire:"55%", gen:"130", red:"140", s2x:"150", s4x:"160", sniper:"170", look:"110" },
+  { name:"Oppo F3 Plus", brand:"Oppo", type:"android", dpi:"900", fire:"55%", gen:"135", red:"145", s2x:"155", s4x:"165", sniper:"175", look:"115" },
+  { name:"Oppo F5", brand:"Oppo", type:"android", dpi:"1000", fire:"50%", gen:"140", red:"150", s2x:"160", s4x:"170", sniper:"180", look:"120" },
+  { name:"Oppo F7", brand:"Oppo", type:"android", dpi:"1000", fire:"50%", gen:"145", red:"155", s2x:"165", s4x:"175", sniper:"185", look:"125" },
+  { name:"Oppo F9", brand:"Oppo", type:"android", dpi:"1200", fire:"50%", gen:"150", red:"160", s2x:"170", s4x:"180", sniper:"190", look:"130" },
+  { name:"Oppo F11", brand:"Oppo", type:"android", dpi:"1200", fire:"50%", gen:"155", red:"165", s2x:"175", s4x:"185", sniper:"195", look:"135" },
+  { name:"Oppo Reno", brand:"Oppo", type:"android", dpi:"1400", fire:"50%", gen:"160", red:"170", s2x:"180", s4x:"190", sniper:"200", look:"140" },
+  { name:"Oppo Reno 2", brand:"Oppo", type:"android", dpi:"1400", fire:"50%", gen:"165", red:"175", s2x:"185", s4x:"195", sniper:"200", look:"145" },
+  { name:"Oppo Reno 3", brand:"Oppo", type:"android", dpi:"1600", fire:"45%", gen:"170", red:"180", s2x:"190", s4x:"200", sniper:"200", look:"150" },
+  { name:"Oppo Reno 4", brand:"Oppo", type:"android", dpi:"1600", fire:"45%", gen:"175", red:"185", s2x:"195", s4x:"200", sniper:"200", look:"155" },
+  { name:"Oppo Find X", brand:"Oppo", type:"android", dpi:"1600", fire:"45%", gen:"180", red:"190", s2x:"200", s4x:"200", sniper:"200", look:"160" },
+
+  // ---- REALME ----
+  { name:"Realme 1", brand:"Realme", type:"android", dpi:"800", fire:"60%", gen:"120", red:"130", s2x:"140", s4x:"150", sniper:"160", look:"100" },
+  { name:"Realme 2", brand:"Realme", type:"android", dpi:"800", fire:"60%", gen:"125", red:"135", s2x:"145", s4x:"155", sniper:"165", look:"105" },
+  { name:"Realme 3", brand:"Realme", type:"android", dpi:"900", fire:"55%", gen:"130", red:"140", s2x:"150", s4x:"160", sniper:"170", look:"110" },
+  { name:"Realme 3 Pro", brand:"Realme", type:"android", dpi:"900", fire:"55%", gen:"135", red:"145", s2x:"155", s4x:"165", sniper:"175", look:"115" },
+  { name:"Realme 5", brand:"Realme", type:"android", dpi:"1000", fire:"50%", gen:"140", red:"150", s2x:"160", s4x:"170", sniper:"180", look:"120" },
+  { name:"Realme 5 Pro", brand:"Realme", type:"android", dpi:"1000", fire:"50%", gen:"145", red:"155", s2x:"165", s4x:"175", sniper:"185", look:"125" },
+  { name:"Realme 6", brand:"Realme", type:"android", dpi:"1200", fire:"50%", gen:"150", red:"160", s2x:"170", s4x:"180", sniper:"190", look:"130" },
+  { name:"Realme 6 Pro", brand:"Realme", type:"android", dpi:"1200", fire:"50%", gen:"155", red:"165", s2x:"175", s4x:"185", sniper:"195", look:"135" },
+  { name:"Realme 7", brand:"Realme", type:"android", dpi:"1400", fire:"50%", gen:"160", red:"170", s2x:"180", s4x:"190", sniper:"200", look:"140" },
+  { name:"Realme 7 Pro", brand:"Realme", type:"android", dpi:"1400", fire:"50%", gen:"165", red:"175", s2x:"185", s4x:"195", sniper:"200", look:"145" },
+  { name:"Realme 8", brand:"Realme", type:"android", dpi:"1600", fire:"45%", gen:"170", red:"180", s2x:"190", s4x:"200", sniper:"200", look:"150" },
+  { name:"Realme 8 Pro", brand:"Realme", type:"android", dpi:"1600", fire:"45%", gen:"175", red:"185", s2x:"195", s4x:"200", sniper:"200", look:"155" },
+  { name:"Realme GT", brand:"Realme", type:"android", dpi:"1600", fire:"45%", gen:"180", red:"190", s2x:"200", s4x:"200", sniper:"200", look:"160" },
+
+  // ---- SAMSUNG S ----
+  { name:"Galaxy S4", brand:"Samsung", type:"android", dpi:"800", fire:"60%", gen:"100", red:"110", s2x:"120", s4x:"130", sniper:"140", look:"80" },
+  { name:"Galaxy S5", brand:"Samsung", type:"android", dpi:"800", fire:"60%", gen:"110", red:"120", s2x:"130", s4x:"140", sniper:"150", look:"85" },
+  { name:"Galaxy S6", brand:"Samsung", type:"android", dpi:"800", fire:"60%", gen:"120", red:"130", s2x:"140", s4x:"150", sniper:"160", look:"90" },
+  { name:"Galaxy S7", brand:"Samsung", type:"android", dpi:"900", fire:"55%", gen:"130", red:"140", s2x:"150", s4x:"160", sniper:"170", look:"95" },
+  { name:"Galaxy S8", brand:"Samsung", type:"android", dpi:"900", fire:"55%", gen:"140", red:"150", s2x:"160", s4x:"170", sniper:"180", look:"100" },
+  { name:"Galaxy S9", brand:"Samsung", type:"android", dpi:"900", fire:"55%", gen:"145", red:"155", s2x:"165", s4x:"175", sniper:"185", look:"105" },
+  { name:"Galaxy S10", brand:"Samsung", type:"android", dpi:"1000", fire:"50%", gen:"150", red:"160", s2x:"170", s4x:"180", sniper:"190", look:"110" },
+  { name:"Galaxy S20", brand:"Samsung", type:"android", dpi:"1000", fire:"50%", gen:"155", red:"165", s2x:"175", s4x:"185", sniper:"195", look:"115" },
+  { name:"Galaxy S21", brand:"Samsung", type:"android", dpi:"1200", fire:"50%", gen:"160", red:"170", s2x:"180", s4x:"190", sniper:"200", look:"120" },
+
+  // ---- SAMSUNG NOTE ----
+  { name:"Galaxy Note 4", brand:"Samsung", type:"android", dpi:"800", fire:"60%", gen:"100", red:"110", s2x:"120", s4x:"130", sniper:"140", look:"80" },
+  { name:"Galaxy Note 5", brand:"Samsung", type:"android", dpi:"800", fire:"60%", gen:"110", red:"120", s2x:"130", s4x:"140", sniper:"150", look:"85" },
+  { name:"Galaxy Note 8", brand:"Samsung", type:"android", dpi:"900", fire:"55%", gen:"120", red:"130", s2x:"140", s4x:"150", sniper:"160", look:"90" },
+  { name:"Galaxy Note 9", brand:"Samsung", type:"android", dpi:"900", fire:"55%", gen:"130", red:"140", s2x:"150", s4x:"160", sniper:"170", look:"95" },
+  { name:"Galaxy Note 10", brand:"Samsung", type:"android", dpi:"1000", fire:"50%", gen:"135", red:"145", s2x:"155", s4x:"165", sniper:"175", look:"100" },
+  { name:"Galaxy Note 20", brand:"Samsung", type:"android", dpi:"1000", fire:"50%", gen:"140", red:"150", s2x:"160", s4x:"170", sniper:"180", look:"105" },
+
+  // ---- SAMSUNG A ----
+  { name:"Galaxy A10", brand:"Samsung", type:"android", dpi:"800", fire:"60%", gen:"110", red:"120", s2x:"130", s4x:"140", sniper:"150", look:"85" },
+  { name:"Galaxy A20", brand:"Samsung", type:"android", dpi:"800", fire:"60%", gen:"115", red:"125", s2x:"135", s4x:"145", sniper:"155", look:"90" },
+  { name:"Galaxy A30", brand:"Samsung", type:"android", dpi:"900", fire:"55%", gen:"120", red:"130", s2x:"140", s4x:"150", sniper:"160", look:"95" },
+  { name:"Galaxy A50", brand:"Samsung", type:"android", dpi:"900", fire:"55%", gen:"130", red:"140", s2x:"150", s4x:"160", sniper:"170", look:"100" },
+  { name:"Galaxy A70", brand:"Samsung", type:"android", dpi:"1000", fire:"50%", gen:"135", red:"145", s2x:"155", s4x:"165", sniper:"175", look:"105" },
+  { name:"Galaxy A80", brand:"Samsung", type:"android", dpi:"1200", fire:"50%", gen:"140", red:"150", s2x:"160", s4x:"170", sniper:"180", look:"110" },
+
+  // ---- SAMSUNG J / Z / M ----
+  { name:"Galaxy J6", brand:"Samsung", type:"android", dpi:"800", fire:"60%", gen:"100", red:"110", s2x:"120", s4x:"130", sniper:"140", look:"80" },
+  { name:"Galaxy J8", brand:"Samsung", type:"android", dpi:"800", fire:"60%", gen:"105", red:"115", s2x:"125", s4x:"135", sniper:"145", look:"85" },
+  { name:"Galaxy Z Flip", brand:"Samsung", type:"android", dpi:"1200", fire:"50%", gen:"150", red:"160", s2x:"170", s4x:"180", sniper:"190", look:"110" },
+  { name:"Galaxy Z Fold 2", brand:"Samsung", type:"android", dpi:"1200", fire:"50%", gen:"155", red:"165", s2x:"175", s4x:"185", sniper:"195", look:"115" },
+  { name:"Galaxy M20", brand:"Samsung", type:"android", dpi:"800", fire:"60%", gen:"100", red:"110", s2x:"120", s4x:"130", sniper:"140", look:"80" },
+  { name:"Galaxy M30", brand:"Samsung", type:"android", dpi:"800", fire:"60%", gen:"105", red:"115", s2x:"125", s4x:"135", sniper:"145", look:"85" },
+  { name:"Galaxy M50", brand:"Samsung", type:"android", dpi:"900", fire:"55%", gen:"110", red:"120", s2x:"130", s4x:"140", sniper:"150", look:"90" },
+
+  // ---- VIVO ----
+  { name:"Vivo V5", brand:"Vivo", type:"android", dpi:"800", fire:"60%", gen:"100", red:"110", s2x:"120", s4x:"130", sniper:"140", look:"80" },
+  { name:"Vivo V7", brand:"Vivo", type:"android", dpi:"800", fire:"60%", gen:"105", red:"115", s2x:"125", s4x:"135", sniper:"145", look:"85" },
+  { name:"Vivo V9", brand:"Vivo", type:"android", dpi:"900", fire:"55%", gen:"110", red:"120", s2x:"130", s4x:"140", sniper:"150", look:"90" },
+  { name:"Vivo V11", brand:"Vivo", type:"android", dpi:"900", fire:"55%", gen:"120", red:"130", s2x:"140", s4x:"150", sniper:"160", look:"95" },
+  { name:"Vivo V15", brand:"Vivo", type:"android", dpi:"1000", fire:"50%", gen:"125", red:"135", s2x:"145", s4x:"155", sniper:"165", look:"100" },
+  { name:"Vivo V17", brand:"Vivo", type:"android", dpi:"1000", fire:"50%", gen:"130", red:"140", s2x:"150", s4x:"160", sniper:"170", look:"105" },
+  { name:"Vivo V21 5G", brand:"Vivo", type:"android", dpi:"1200", fire:"50%", gen:"140", red:"150", s2x:"160", s4x:"170", sniper:"180", look:"120" },
+  { name:"Vivo V23 5G", brand:"Vivo", type:"android", dpi:"1400", fire:"50%", gen:"145", red:"155", s2x:"165", s4x:"175", sniper:"185", look:"125" },
+  { name:"Vivo Y91", brand:"Vivo", type:"android", dpi:"800", fire:"60%", gen:"100", red:"110", s2x:"120", s4x:"130", sniper:"140", look:"80" },
+  { name:"Vivo Y93", brand:"Vivo", type:"android", dpi:"800", fire:"60%", gen:"105", red:"115", s2x:"125", s4x:"135", sniper:"145", look:"85" },
+  { name:"Vivo Y95", brand:"Vivo", type:"android", dpi:"900", fire:"55%", gen:"110", red:"120", s2x:"130", s4x:"140", sniper:"150", look:"90" },
+  { name:"Vivo Y20", brand:"Vivo", type:"android", dpi:"900", fire:"55%", gen:"115", red:"125", s2x:"135", s4x:"145", sniper:"155", look:"95" },
+  { name:"Vivo Y21", brand:"Vivo", type:"android", dpi:"1000", fire:"50%", gen:"120", red:"130", s2x:"140", s4x:"150", sniper:"160", look:"100" },
+  { name:"Vivo X21", brand:"Vivo", type:"android", dpi:"1000", fire:"50%", gen:"125", red:"135", s2x:"145", s4x:"155", sniper:"165", look:"105" },
+  { name:"Vivo X50", brand:"Vivo", type:"android", dpi:"1200", fire:"45%", gen:"130", red:"140", s2x:"150", s4x:"160", sniper:"170", look:"110" },
+  { name:"Vivo X70", brand:"Vivo", type:"android", dpi:"1200", fire:"45%", gen:"135", red:"145", s2x:"155", s4x:"165", sniper:"175", look:"115" },
+
+  // ---- XIAOMI / REDMI / POCO ----
+  { name:"Xiaomi Mi 8", brand:"Xiaomi", type:"android", dpi:"800", fire:"60%", gen:"100", red:"110", s2x:"120", s4x:"130", sniper:"140", look:"80" },
+  { name:"Xiaomi Mi 9", brand:"Xiaomi", type:"android", dpi:"800", fire:"60%", gen:"105", red:"115", s2x:"125", s4x:"135", sniper:"145", look:"85" },
+  { name:"Xiaomi Mi 10", brand:"Xiaomi", type:"android", dpi:"900", fire:"55%", gen:"110", red:"120", s2x:"130", s4x:"140", sniper:"150", look:"90" },
+  { name:"Xiaomi Mi 11", brand:"Xiaomi", type:"android", dpi:"900", fire:"55%", gen:"120", red:"130", s2x:"140", s4x:"150", sniper:"160", look:"95" },
+  { name:"Mi MIX 2", brand:"Xiaomi", type:"android", dpi:"800", fire:"60%", gen:"100", red:"110", s2x:"120", s4x:"130", sniper:"140", look:"80" },
+  { name:"Mi MIX 3", brand:"Xiaomi", type:"android", dpi:"800", fire:"60%", gen:"105", red:"115", s2x:"125", s4x:"135", sniper:"145", look:"85" },
+  { name:"Redmi Note 7", brand:"Redmi", type:"android", dpi:"800", fire:"60%", gen:"100", red:"110", s2x:"120", s4x:"130", sniper:"140", look:"80" },
+  { name:"Redmi Note 8", brand:"Redmi", type:"android", dpi:"800", fire:"60%", gen:"105", red:"115", s2x:"125", s4x:"135", sniper:"145", look:"85" },
+  { name:"Redmi Note 9", brand:"Redmi", type:"android", dpi:"900", fire:"55%", gen:"110", red:"120", s2x:"130", s4x:"140", sniper:"150", look:"90" },
+  { name:"Redmi Note 10", brand:"Redmi", type:"android", dpi:"900", fire:"55%", gen:"115", red:"125", s2x:"135", s4x:"145", sniper:"155", look:"95" },
+  { name:"Redmi 14C", brand:"Redmi", type:"android", dpi:"1000", fire:"55%", gen:"173", red:"178", s2x:"183", s4x:"188", sniper:"193", look:"155" },
+  { name:"Poco F1", brand:"Poco", type:"android", dpi:"800", fire:"60%", gen:"100", red:"110", s2x:"120", s4x:"130", sniper:"140", look:"80" },
+  { name:"Poco X2", brand:"Poco", type:"android", dpi:"800", fire:"60%", gen:"105", red:"115", s2x:"125", s4x:"135", sniper:"145", look:"85" },
+  { name:"Poco X3", brand:"Poco", type:"android", dpi:"900", fire:"55%", gen:"110", red:"120", s2x:"130", s4x:"140", sniper:"150", look:"90" },
+  { name:"Poco F3", brand:"Poco", type:"android", dpi:"900", fire:"55%", gen:"120", red:"130", s2x:"140", s4x:"150", sniper:"160", look:"95" },
+];
+
+// ===================== STATE =====================
+let activeType = 'all';
+let activeMode = 'old';
+let currentDevice = null;
+
+const popularNames = [
+  "iPhone 11", "iPhone 13 Pro", "Samsung S21", "Redmi Note 10",
+  "OnePlus 9 Pro", "Poco F3", "Oppo Reno 4", "Google Pixel 6",
+  "Realme 8 Pro", "Vivo V21 5G", "Redmi 14C", "Galaxy A50"
+];
+
+// ===================== INIT =====================
+window.onload = () => {
+  buildPopular();
+  document.addEventListener('click', (e) => {
+    if (!e.target.closest('.search-box')) hideDropdown();
+  });
+};
+
+function buildPopular() {
+  const grid = document.getElementById('popularGrid');
+  grid.innerHTML = '';
+  popularNames.forEach(n => {
+    const d = devices.find(d => d.name.toLowerCase().includes(n.toLowerCase()));
+    if (d) {
+      const chip = document.createElement('button');
+      chip.className = 'pop-chip';
+      chip.textContent = d.name;
+      chip.onclick = () => selectDevice(d);
+      grid.appendChild(chip);
+    }
+  });
+}
+
+function setDeviceType(t) {
+  activeType = t;
+  document.querySelectorAll('.toggle-btn').forEach((b, i) => {
+    b.classList.toggle('active', ['all','iphone','android'][i] === t);
+  });
+  if (currentDevice) showResult(currentDevice);
+  onSearch();
+}
+
+function setMode(m) {
+  activeMode = m;
+  document.getElementById('modeOld').classList.toggle('active', m === 'old');
+  document.getElementById('modeNew').classList.toggle('active', m === 'new');
+  if (currentDevice) showResult(currentDevice);
+}
+
+// ===================== SEARCH =====================
+function getFiltered() {
+  if (activeType === 'all') return devices;
+  return devices.filter(d => d.type === activeType);
+}
+
+function onSearch() {
+  const q = document.getElementById('deviceSearch').value.toLowerCase().trim();
+  const list = document.getElementById('dropdownList');
+  const filtered = getFiltered().filter(d =>
+    d.name.toLowerCase().includes(q) || d.brand.toLowerCase().includes(q)
+  );
+  if (filtered.length === 0 || q === '') {
+    if (q === '') {
+      // show top 12
+      const top = getFiltered().slice(0, 14);
+      renderDropdown(top);
+    } else {
+      list.innerHTML = '<div class="drop-item" style="color:#555">No results found</div>';
+      list.classList.add('show');
+    }
+    return;
+  }
+  renderDropdown(filtered.slice(0, 14));
+}
+
+function renderDropdown(items) {
+  const list = document.getElementById('dropdownList');
+  list.innerHTML = '';
+  items.forEach(d => {
+    const div = document.createElement('div');
+    div.className = 'drop-item';
+    const icon = d.type === 'iphone' ? '🍎' : '📱';
+    div.innerHTML = `${icon} ${d.name} <span class="drop-brand">${d.brand}</span>`;
+    div.onclick = () => selectDevice(d);
+    list.appendChild(div);
+  });
+  list.classList.add('show');
+}
+
+function hideDropdown() {
+  document.getElementById('dropdownList').classList.remove('show');
+}
+
+function selectDevice(d) {
+  currentDevice = d;
+  document.getElementById('deviceSearch').value = d.name;
+  hideDropdown();
+  showResult(d);
+}
+
+// ===================== SHOW RESULT =====================
+function showResult(d) {
+  const card = document.getElementById('resultCard');
+  const noResult = document.getElementById('noResult');
+  noResult.style.display = 'none';
+
+  const isIphone = d.type === 'iphone';
+  const icon = isIphone ? '🍎' : '📱';
+  const hasDPI = !!d.dpi;
+  const showDPI = hasDPI && activeMode === 'old';
+
+  const modeNote = isIphone
+    ? '<span style="color:#FF6B00;font-size:11px;letter-spacing:1px;">iOS — No DPI Required</span>'
+    : (activeMode === 'old'
+        ? '<span style="color:#FFD700;font-size:11px;">Old Device Mode — Set DPI First</span>'
+        : '<span style="color:#aaa;font-size:11px;">New Device — Apply Directly In-Game</span>');
+
+  card.innerHTML = `
+    <div class="result-header">
+      <div class="device-icon-big">${icon}</div>
+      <div>
+        <div class="device-name-big">${d.name}</div>
+        <div class="device-meta">${d.brand} &nbsp;•&nbsp; ${modeNote}</div>
+      </div>
+      <div class="vip-badge">⭐ VIP SENS</div>
+    </div>
+    <div class="sens-grid">
+      <div class="sens-item">
+        <div class="sens-label">General</div>
+        <div class="sens-value">${d.gen}</div>
+      </div>
+      <div class="sens-item">
+        <div class="sens-label">Red Dot</div>
+        <div class="sens-value">${d.red}</div>
+      </div>
+      <div class="sens-item">
+        <div class="sens-label">2x Scope</div>
+        <div class="sens-value">${d.s2x}</div>
+      </div>
+      <div class="sens-item highlight">
+        <div class="sens-label">4x Scope</div>
+        <div class="sens-value">${d.s4x}</div>
+      </div>
+      <div class="sens-item">
+        <div class="sens-label">Sniper</div>
+        <div class="sens-value">${d.sniper}</div>
+      </div>
+      <div class="sens-item">
+        <div class="sens-label">Free Look</div>
+        <div class="sens-value">${d.look}</div>
+      </div>
+    </div>
+    ${showDPI ? `
+    <div class="dpi-row">
+      <div>
+        <div class="dpi-label">📊 RECOMMENDED DPI</div>
+        <div style="font-size:11px;color:#666;margin-top:2px;">Set in phone settings</div>
+      </div>
+      <div class="dpi-val">${d.dpi}</div>
+    </div>` : ''}
+    <div class="fire-row">
+      <div>
+        <div class="fire-label">🔥 FIRE BUTTON SIZE</div>
+        <div style="font-size:11px;color:#666;margin-top:2px;">Adjust in HUD layout</div>
+      </div>
+      <div class="fire-val">${d.fire}</div>
+    </div>
+  `;
+
+  card.style.display = 'block';
+}
+</script>
+</body>
+</html>
